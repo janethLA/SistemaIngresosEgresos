@@ -49,7 +49,7 @@ public class AuthController {
               String jwt = jwtUtil.generateToken(userDetails);
               Collection<? extends GrantedAuthority> roles=userDetails.getAuthorities();
              System.out.println("FECHA--> : "+LocalDate.now().isEqual(authUserService.getExpiryDate(request.getUsername())));
-              if(LocalDate.now().isEqual(authUserService.getExpiryDate(request.getUsername()))) {
+              if(LocalDate.now().isBefore(authUserService.getExpiryDate(request.getUsername()))) {
             	  return new ResponseEntity<>(new AuthenticationResponse(jwt,roles, authUserService.getIdUser(request.getUsername()),
              				authUserService.getNameUser(request.getUsername()), authUserService.getName(request.getUsername()))
         	                    , HttpStatus.OK);

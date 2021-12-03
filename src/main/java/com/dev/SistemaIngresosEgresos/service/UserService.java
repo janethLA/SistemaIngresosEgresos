@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.dev.SistemaIngresosEgresos.entity.Role;
 import com.dev.SistemaIngresosEgresos.entity.UserSis;
 import com.dev.SistemaIngresosEgresos.input.UserInput;
 import com.dev.SistemaIngresosEgresos.output.UserOutput;
@@ -40,8 +41,9 @@ public class UserService {
 		newUser.setTelephone(user.getTelephone());
 		newUser.setRegistrationDate(LocalDate.now());
 		newUser.setExpiryDate(user.getExpiryDate());
-		//Role role= roleService.findById(2);
-		//newUser.setRole(role);
+		newUser.setActive(true);
+		Role role= roleService.findById(2);
+		newUser.setRole(role);
 	    userRepository.save(newUser);
 	    return user;
 	}

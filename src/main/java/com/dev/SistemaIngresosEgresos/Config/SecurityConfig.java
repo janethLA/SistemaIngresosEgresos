@@ -1,5 +1,6 @@
 package com.dev.SistemaIngresosEgresos.Config;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,8 +25,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private AuthUserService authUService;
-	@Autowired
-	private BCryptPasswordEncoder encoder;
 	
 	@Autowired
     private JwtFilterRequest jwtFilterRequest;
@@ -37,11 +36,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(authUService).passwordEncoder(encoder);
+		
+		auth.userDetailsService(authUService);
 	}
 	
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+    	System.out.println("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
         http.cors().and().csrf().disable().authorizeRequests().antMatchers("/**/authenticate").permitAll()
         		//.antMatchers("/quotation/getById/*").permitAll()
         		//.antMatchers("/**/updateQuotationAddingBusiness/*").permitAll()
@@ -51,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         		//.antMatchers("/**/RelatingPriceQuotationToDetails").permitAll()
         		//.antMatchers("/**/uploadDetail").permitAll()
         		//.antMatchers("/api/request").hasRole("ADMIN")
-                //.anyRequest().authenticated()
+                .anyRequest().authenticated()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
