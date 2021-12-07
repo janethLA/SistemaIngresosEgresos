@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-    	System.out.println("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
+    	
         http.cors().and().csrf().disable().authorizeRequests().antMatchers("/**/authenticate").permitAll()
         		//.antMatchers("/quotation/getById/*").permitAll()
         		//.antMatchers("/**/updateQuotationAddingBusiness/*").permitAll()
