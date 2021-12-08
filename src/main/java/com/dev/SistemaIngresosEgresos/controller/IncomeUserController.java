@@ -14,46 +14,40 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dev.SistemaIngresosEgresos.input.ExpenseInput;
-import com.dev.SistemaIngresosEgresos.input.ExpenseUserInput;
-import com.dev.SistemaIngresosEgresos.output.ExpenseOutput;
-import com.dev.SistemaIngresosEgresos.service.ExpenseService;
+import com.dev.SistemaIngresosEgresos.input.IncomeUserInput;
+import com.dev.SistemaIngresosEgresos.input.UserInput;
+import com.dev.SistemaIngresosEgresos.output.IncomeUserOutput;
+import com.dev.SistemaIngresosEgresos.output.UserOutput;
+import com.dev.SistemaIngresosEgresos.service.IncomeUserService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
-@RequestMapping("/expense")
-public class ExpenseController {
+@RequestMapping("/incomeUser")
+public class IncomeUserController {
 
 	@Autowired
-	private ExpenseService expenseService;
+	private IncomeUserService incomeUserService;
 	@Autowired
 	private ModelMapper modelMapper;
 	
 
 	@PreAuthorize("hasRole('ROLE_USER_FINAL')")	
-	@PostMapping("/createExpense/{id}")
-	public ResponseEntity<?> createExpense(@RequestBody ExpenseInput expense, @PathVariable Long id){
+	@PostMapping("/registerIncome/{id}")
+	public ResponseEntity<?> createIncome(@RequestBody IncomeUserInput income, @PathVariable Long id){
 		
-		return ResponseEntity.ok(expenseService.save(expense,id));
+		return ResponseEntity.ok(incomeUserService.save(income,id));
 	}
 	
 	@PreAuthorize("hasRole('ROLE_USER_FINAL')")	
-	@GetMapping("/allExpenses/{id}")
-	public Iterable<ExpenseOutput> getAllExpenses(@PathVariable Long id){
+	@GetMapping("/allIncomesByUser/{id}")
+	public Iterable<IncomeUserOutput> allIncomesByUser(@PathVariable Long id){
 		
-		return expenseService.getAllExpenses(id);
+		return incomeUserService.allIncomesByUser(id);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_USER_FINAL')")
-	@PutMapping("/deleteExpense/{id}")
-	public ResponseEntity<?> deleteExpense(@PathVariable Long id){
-	    
-		return ResponseEntity.ok(expenseService.deleteExpense(id));
-	}
-	
-	@PreAuthorize("hasRole('ROLE_USER_FINAL')")
-	@PutMapping("/updateExpense/{id}")
-	public ResponseEntity<?> updateExpense(@PathVariable long id,@RequestBody ExpenseInput expense){
-		return ResponseEntity.ok(expenseService.updateExpense(id, expense));
+	@PutMapping("/updateIncomeOfUser/{id}")
+	public ResponseEntity<?> updateIncomeOfUser(@PathVariable long id,@RequestBody IncomeUserInput income){
+		return ResponseEntity.ok(incomeUserService.updateIncomeOfUser(id, income));
 	}
 }

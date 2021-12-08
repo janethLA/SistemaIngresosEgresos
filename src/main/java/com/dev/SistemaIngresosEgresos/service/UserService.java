@@ -104,5 +104,28 @@ public class UserService {
     public UserSis findById(long id) {
     	return userRepository.findById(id).get();
     }
+    
+    public UserInput setUser(long id,UserInput user) {
+		UserSis updateUser=userRepository.findById(id).get();
+		
+		if(!user.getName().isEmpty()) {
+			updateUser.setName(user.getName());
+		}
+		if(!user.getPassword().isEmpty()) {
+			updateUser.setPassword(encoder.encode(user.getPassword()));
+		}
+		if(!user.getUsername().isEmpty()) {
+			updateUser.setUserName(user.getUsername());
+		}
+		if(user.getTelephone()!=0) {
+			updateUser.setTelephone(user.getTelephone());
+		}
+		if(user.getExpiryDate()!=null) {
+			updateUser.setExpiryDate(user.getExpiryDate());
+		}
+		
+		userRepository.save(updateUser);
+		return user;
+    }
    
 }

@@ -5,15 +5,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dev.SistemaIngresosEgresos.input.IncomeInput;
+import com.dev.SistemaIngresosEgresos.input.IncomeUserInput;
 import com.dev.SistemaIngresosEgresos.output.IncomeOutput;
 import com.dev.SistemaIngresosEgresos.output.UserOutput;
 import com.dev.SistemaIngresosEgresos.service.IncomeService;
@@ -41,5 +44,18 @@ public class IncomeController {
 	public Iterable<IncomeOutput> getAllIncomes(@PathVariable Long id){
 		
 		return incomeService.getAllIncomes(id);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_USER_FINAL')")
+	@PutMapping("/deleteIncome/{id}")
+	public ResponseEntity<?> deleteIncome(@PathVariable Long id){
+	    
+		return ResponseEntity.ok(incomeService.deleteIncome(id));
+	}
+	
+	@PreAuthorize("hasRole('ROLE_USER_FINAL')")
+	@PutMapping("/updateIncome/{id}")
+	public ResponseEntity<?> updateIncome(@PathVariable long id,@RequestBody IncomeInput income){
+		return ResponseEntity.ok(incomeService.updateIncome(id, income));
 	}
 }

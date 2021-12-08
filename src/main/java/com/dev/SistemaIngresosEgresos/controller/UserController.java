@@ -56,8 +56,15 @@ public class UserController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@DeleteMapping(value = "/deleteUser/{id}")
-	public ResponseEntity<?> deleteUser(@PathVariable Integer id){
+	@PutMapping("/updateDataUser/{id}")
+	public ResponseEntity<?> setDataUser(@PathVariable long id,@RequestBody UserInput user){
+		return ResponseEntity.ok(userService.setUser(id, user));
+	}
+	
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PutMapping("/deleteUser/{id}")
+	public ResponseEntity<?> deleteUser(@PathVariable Long id){
 	    
 		return ResponseEntity.ok(userService.deleteUser(id));
 	}

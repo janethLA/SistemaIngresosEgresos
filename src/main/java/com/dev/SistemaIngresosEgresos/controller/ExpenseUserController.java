@@ -14,46 +14,40 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dev.SistemaIngresosEgresos.input.ExpenseInput;
 import com.dev.SistemaIngresosEgresos.input.ExpenseUserInput;
-import com.dev.SistemaIngresosEgresos.output.ExpenseOutput;
-import com.dev.SistemaIngresosEgresos.service.ExpenseService;
+import com.dev.SistemaIngresosEgresos.output.ExpenseUserOutput;
+import com.dev.SistemaIngresosEgresos.service.ExpenseUserService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
-@RequestMapping("/expense")
-public class ExpenseController {
+@RequestMapping("/expenseUser")
+public class ExpenseUserController {
 
 	@Autowired
-	private ExpenseService expenseService;
+	private ExpenseUserService expenseUserService;
 	@Autowired
 	private ModelMapper modelMapper;
 	
 
+	
 	@PreAuthorize("hasRole('ROLE_USER_FINAL')")	
-	@PostMapping("/createExpense/{id}")
-	public ResponseEntity<?> createExpense(@RequestBody ExpenseInput expense, @PathVariable Long id){
+	@PostMapping("/registerExpense/{id}")
+	public ResponseEntity<?> registerExpense(@RequestBody ExpenseUserInput expense, @PathVariable Long id){
 		
-		return ResponseEntity.ok(expenseService.save(expense,id));
+		return ResponseEntity.ok(expenseUserService.save(expense,id));
 	}
 	
 	@PreAuthorize("hasRole('ROLE_USER_FINAL')")	
-	@GetMapping("/allExpenses/{id}")
-	public Iterable<ExpenseOutput> getAllExpenses(@PathVariable Long id){
+	@GetMapping("/allExpesesByUser/{id}")
+	public Iterable<ExpenseUserOutput> allExpesesByUser(@PathVariable Long id){
 		
-		return expenseService.getAllExpenses(id);
+		return expenseUserService.allExpesesByUser(id);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_USER_FINAL')")
-	@PutMapping("/deleteExpense/{id}")
-	public ResponseEntity<?> deleteExpense(@PathVariable Long id){
-	    
-		return ResponseEntity.ok(expenseService.deleteExpense(id));
+	@PutMapping("/updateExpenseOfUser/{id}")
+	public ResponseEntity<?> updateExpenseOfUser(@PathVariable long id,@RequestBody ExpenseUserInput expense){
+		return ResponseEntity.ok(expenseUserService.updateExpenseOfUser(id, expense));
 	}
 	
-	@PreAuthorize("hasRole('ROLE_USER_FINAL')")
-	@PutMapping("/updateExpense/{id}")
-	public ResponseEntity<?> updateExpense(@PathVariable long id,@RequestBody ExpenseInput expense){
-		return ResponseEntity.ok(expenseService.updateExpense(id, expense));
-	}
 }

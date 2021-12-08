@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.dev.SistemaIngresosEgresos.entity.Role;
+import com.dev.SistemaIngresosEgresos.entity.Setting;
 import com.dev.SistemaIngresosEgresos.entity.UserSis;
 import com.dev.SistemaIngresosEgresos.repository.RoleRepository;
 
@@ -23,6 +24,9 @@ public class CreateUserAdmin implements CommandLineRunner{
 	
 	@Autowired
 	private BCryptPasswordEncoder encoder;
+	
+	@Autowired
+	private SettingService settingService;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -53,6 +57,9 @@ public class CreateUserAdmin implements CommandLineRunner{
 			//Rol asignado al admin
 			saveUser.setRole(newRole);
 			userService.save(newUser);
+			
+			Setting setting=new Setting();
+			settingService.save(setting);
 		}
 		
 	}

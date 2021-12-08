@@ -50,6 +50,14 @@ public class UserSis {
 	@OneToMany(mappedBy = "userS",cascade = {CascadeType.PERSIST, CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
 	@JsonManagedReference(value="user-expense")
 	private List<Expense> expense;
+	
+	@OneToMany(mappedBy = "user",cascade = {CascadeType.PERSIST, CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
+	@JsonManagedReference(value="userI")
+	private List<IncomeUser> incomeUser;
+	
+	@OneToMany(mappedBy = "user",cascade = {CascadeType.PERSIST, CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
+	@JsonManagedReference(value="userE")
+	private List<ExpenseUser> expenseUser;
 
 	public long getIdUser() {
 		return idUser;
@@ -138,7 +146,21 @@ public class UserSis {
 	public void setExpense(List<Expense> expense) {
 		this.expense = expense;
 	}
-	
-	
 
+	public List<IncomeUser> getIncomeUser() {
+		return incomeUser;
+	}
+
+	public void setIncomeUser(List<IncomeUser> incomeUser) {
+		this.incomeUser = incomeUser;
+	}
+
+	public List<ExpenseUser> getExpenseUser() {
+		return expenseUser;
+	}
+
+	public void setExpenseUser(List<ExpenseUser> expenseUser) {
+		this.expenseUser = expenseUser;
+	}
+	
 }
