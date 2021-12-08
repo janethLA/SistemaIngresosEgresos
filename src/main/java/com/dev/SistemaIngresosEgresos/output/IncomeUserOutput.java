@@ -6,7 +6,7 @@ public class IncomeUserOutput {
 	
 	private long idIncomeUser;
 	private LocalDate date;
-	private String moon;
+	private String month;
 	private String concept;
 	private double amount;
 	private String comment;
@@ -24,11 +24,11 @@ public class IncomeUserOutput {
 	public void setDate(LocalDate date) {
 		this.date = date;
 	}
-	public String getMoon() {
-		return moon;
+	public String getMonth() {
+		return month;
 	}
-	public void setMoon(String moon) {
-		this.moon = moon;
+	public void setMonth(String month) {
+		this.month = month;
 	}
 	public String getConcept() {
 		return concept;

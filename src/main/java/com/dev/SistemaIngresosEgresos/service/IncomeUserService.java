@@ -15,6 +15,7 @@ import com.dev.SistemaIngresosEgresos.entity.IncomeUser;
 import com.dev.SistemaIngresosEgresos.entity.UserSis;
 import com.dev.SistemaIngresosEgresos.input.IncomeUserInput;
 import com.dev.SistemaIngresosEgresos.output.IncomeUserOutput;
+import com.dev.SistemaIngresosEgresos.output.ReportOutput;
 import com.dev.SistemaIngresosEgresos.output.UserOutput;
 import com.dev.SistemaIngresosEgresos.repository.IncomeUserRepository;
 
@@ -37,7 +38,7 @@ public class IncomeUserService {
 		Income newIncome=incomeService.findById(income.getIdIncome());
 		IncomeUser incomeUser=new IncomeUser();
 		incomeUser.setDate(income.getDate());
-		incomeUser.setMoon(income.getMoon());
+		incomeUser.setMonth(income.getMonth());;
 		incomeUser.setAmount(income.getAmount());
 		incomeUser.setComment(income.getComment());
 		incomeUser.setConcept(income.getConcept());
@@ -60,7 +61,7 @@ public class IncomeUserService {
 			IncomeUserOutput income = new IncomeUserOutput();
 			income.setIdIncomeUser(found.getIdIncomeUser());
 			income.setDate(found.getDate());
-			income.setMoon(found.getMoon());
+			income.setMonth(found.getMonth());
 			income.setAmount(found.getAmount());
 			income.setConcept(found.getConcept());
 			income.setComment(found.getComment());
@@ -83,8 +84,8 @@ public class IncomeUserService {
 		if(incomeUser.getAmount()!=0) {
 			income.setAmount(incomeUser.getAmount());
 		}
-		if(!incomeUser.getMoon().isEmpty()) {
-			income.setMoon(incomeUser.getMoon());
+		if(!incomeUser.getMonth().isEmpty()) {
+			income.setMonth(incomeUser.getMonth());
 		}
 		if(!incomeUser.getConcept().isEmpty()) {
 			income.setConcept(incomeUser.getConcept());
@@ -96,5 +97,7 @@ public class IncomeUserService {
 		incomeUserRepository.save(income);
 		return incomeUser;
 	}
+	
+	
 	
 }

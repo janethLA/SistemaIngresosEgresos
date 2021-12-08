@@ -24,7 +24,7 @@ public class ExpenseUser {
 	@Column
 	private LocalDate date;
 	@Column
-	private String moon;
+	private String month;
 	@Column
 	private String concept;
 	@Column
@@ -58,12 +58,12 @@ public class ExpenseUser {
 		this.date = date;
 	}
 
-	public String getMoon() {
-		return moon;
+	public String getMonth() {
+		return month;
 	}
 
-	public void setMoon(String moon) {
-		this.moon = moon;
+	public void setMonth(String month) {
+		this.month = month;
 	}
 
 	public String getConcept() {

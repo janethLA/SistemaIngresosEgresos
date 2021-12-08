@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dev.SistemaIngresosEgresos.input.IncomeUserInput;
 import com.dev.SistemaIngresosEgresos.input.UserInput;
 import com.dev.SistemaIngresosEgresos.output.IncomeUserOutput;
+import com.dev.SistemaIngresosEgresos.output.ReportOutput;
 import com.dev.SistemaIngresosEgresos.output.UserOutput;
 import com.dev.SistemaIngresosEgresos.service.IncomeUserService;
 
@@ -50,4 +51,5 @@ public class IncomeUserController {
 	public ResponseEntity<?> updateIncomeOfUser(@PathVariable long id,@RequestBody IncomeUserInput income){
 		return ResponseEntity.ok(incomeUserService.updateIncomeOfUser(id, income));
 	}
+	
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dev.SistemaIngresosEgresos.input.IncomeInput;
 import com.dev.SistemaIngresosEgresos.input.IncomeUserInput;
 import com.dev.SistemaIngresosEgresos.output.IncomeOutput;
+import com.dev.SistemaIngresosEgresos.output.ReportOutput;
 import com.dev.SistemaIngresosEgresos.output.UserOutput;
 import com.dev.SistemaIngresosEgresos.service.IncomeService;
 
@@ -58,4 +59,11 @@ public class IncomeController {
 	public ResponseEntity<?> updateIncome(@PathVariable long id,@RequestBody IncomeInput income){
 		return ResponseEntity.ok(incomeService.updateIncome(id, income));
 	}
+	
+	/*@PreAuthorize("hasRole('ROLE_USER_FINAL')")	
+	@GetMapping("/incomesReport/{id}/{year}")
+	public Iterable<ReportOutput> incomesReport(@PathVariable Long id, @PathVariable String year){
+		
+		return incomeService.incomesReport(id, year);
+	}*/
 }

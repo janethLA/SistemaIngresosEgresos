@@ -14,6 +14,7 @@ import com.dev.SistemaIngresosEgresos.entity.UserSis;
 import com.dev.SistemaIngresosEgresos.input.IncomeInput;
 import com.dev.SistemaIngresosEgresos.input.IncomeUserInput;
 import com.dev.SistemaIngresosEgresos.output.IncomeOutput;
+import com.dev.SistemaIngresosEgresos.output.ReportOutput;
 import com.dev.SistemaIngresosEgresos.output.UserOutput;
 import com.dev.SistemaIngresosEgresos.repository.IncomeRepository;
 
@@ -99,5 +100,44 @@ public class IncomeService {
 		incomeRepository.save(income);
 		return incomeUser;
 	}
+   
+  /* public ReportOutput incomesReport(long id, String year) {
+		
+		UserSis user = userService.findById(id);
+		List<Income> allIncomes = user.getIncome();
+		List<ReportOutput> allIncomesByOrder = new ArrayList<ReportOutput>();
+
+		
+		for (Income found : allIncomes) {
+
+			if(year==year) {
+				ReportOutput income = new ReportOutput();
+				income.setAccountName(found.getIncomeName());
+				Double [] amountForMonth=new Double[12];
+				for(int j=0;j<found.getIncomeUser().size();j++) {
+					IncomeUser incomeUser=found.getIncomeUser().get(j);
+					if(incomeUser.getMoon()) {
+						
+					}
+				}
+				for (int i=0;i<amountForMonth.length; i++) {
+					
+				}
+				income.setIdIncomeUser(found.getIdIncomeUser());
+				income.setDate(found.getDate());
+				income.setMoon(found.getMoon());
+				income.setAmount(found.getAmount());
+				income.setConcept(found.getConcept());
+				income.setComment(found.getComment());
+				income.setIncomeAccount(found.getIncome().getIncomeName());
+				
+				allIncomesByOrder.add(income);
+			}
+			
+
+		}
+
+		return allIncomesByOrder;
+	}*/
 
 }

@@ -41,7 +41,7 @@ public class ExpenseUserService {
 		Expense newExpense=expenseService.findById(expense.getIdExpense());
 		ExpenseUser expenseUser=new ExpenseUser();
 		expenseUser.setDate(expense.getDate());
-		expenseUser.setMoon(expense.getMoon());
+		expenseUser.setMonth(expense.getMonth());
 		expenseUser.setAmount(expense.getAmount());
 		expenseUser.setComment(expense.getComment());
 		expenseUser.setConcept(expense.getConcept());
@@ -64,7 +64,7 @@ public class ExpenseUserService {
 			ExpenseUserOutput expense = new ExpenseUserOutput();
 			expense.setIdExpenseUser(found.getIdExpenseUser());
 			expense.setDate(found.getDate());
-			expense.setMoon(found.getMoon());
+			expense.setMonth(found.getMonth());
 			expense.setAmount(found.getAmount());
 			expense.setConcept(found.getConcept());
 			expense.setComment(found.getComment());
@@ -87,8 +87,8 @@ public class ExpenseUserService {
 		if(expenseUser.getAmount()!=0) {
 			expense.setAmount(expenseUser.getAmount());
 		}
-		if(!expenseUser.getMoon().isEmpty()) {
-			expense.setMoon(expenseUser.getMoon());
+		if(!expenseUser.getMonth().isEmpty()) {
+			expense.setMonth(expenseUser.getMonth());
 		}
 		if(!expenseUser.getConcept().isEmpty()) {
 			expense.setConcept(expenseUser.getConcept());
