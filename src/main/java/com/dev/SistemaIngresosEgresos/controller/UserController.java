@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dev.SistemaIngresosEgresos.input.DataUserOutput;
 import com.dev.SistemaIngresosEgresos.input.UserInput;
 import com.dev.SistemaIngresosEgresos.output.UserOutput;
 import com.dev.SistemaIngresosEgresos.service.UserService;
@@ -67,6 +68,19 @@ public class UserController {
 	public ResponseEntity<?> deleteUser(@PathVariable Long id){
 	    
 		return ResponseEntity.ok(userService.deleteUser(id));
+	}
+	
+	@PreAuthorize("hasRole('ROLE_USER_FINAL')")
+	@GetMapping("/getIncomeAndExpenseTotal/{id}")
+	public ResponseEntity<?> getIncomeAndExpenseTotal(@PathVariable Long id){
+	    
+		return ResponseEntity.ok(userService.getIncomeAndExpenseTotal(id));
+	}
+	
+	@PreAuthorize("hasRole('ROLE_USER_FINAL')")
+	@PutMapping("/updateDataFinalUser/{id}")
+	public ResponseEntity<?> updateDataFinalUser(@PathVariable long id,@RequestBody DataUserOutput user){
+		return ResponseEntity.ok(userService.updateDataFinalUser(id, user));
 	}
 	
 	

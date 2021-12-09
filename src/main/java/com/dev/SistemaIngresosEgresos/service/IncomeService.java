@@ -101,43 +101,96 @@ public class IncomeService {
 		return incomeUser;
 	}
    
-  /* public ReportOutput incomesReport(long id, String year) {
+    public List<ReportOutput> incomesReport(long id, String year) {
 		
 		UserSis user = userService.findById(id);
 		List<Income> allIncomes = user.getIncome();
-		List<ReportOutput> allIncomesByOrder = new ArrayList<ReportOutput>();
+		List<ReportOutput> allIncomesForReport = new ArrayList<ReportOutput>();
 
 		
 		for (Income found : allIncomes) {
 
-			if(year==year) {
-				ReportOutput income = new ReportOutput();
-				income.setAccountName(found.getIncomeName());
-				Double [] amountForMonth=new Double[12];
-				for(int j=0;j<found.getIncomeUser().size();j++) {
-					IncomeUser incomeUser=found.getIncomeUser().get(j);
-					if(incomeUser.getMoon()) {
-						
-					}
-				}
-				for (int i=0;i<amountForMonth.length; i++) {
-					
-				}
-				income.setIdIncomeUser(found.getIdIncomeUser());
-				income.setDate(found.getDate());
-				income.setMoon(found.getMoon());
-				income.setAmount(found.getAmount());
-				income.setConcept(found.getConcept());
-				income.setComment(found.getComment());
-				income.setIncomeAccount(found.getIncome().getIncomeName());
-				
-				allIncomesByOrder.add(income);
-			}
-			
+			ReportOutput income = new ReportOutput();
+			income.setAccountName(found.getIncomeName());
 
+			ArrayList<Double> amountForMonth = new ArrayList<Double>();
+			double amountJanuary = 0.0;
+			double amountFebruary = 0.0;
+			double amountMarch = 0.0;
+			double amountApril = 0.0;
+			double amountMay = 0.0;
+			double amountJune = 0.0;
+			double amountJuly = 0.0;
+			double amountAugust = 0.0;
+			double amountSeptember = 0.0;
+			double amountOctuber = 0.0;
+			double amountNovember = 0.0;
+			double amountDecember = 0.0;
+
+			for (int j = 0; j < found.getIncomeUser().size(); j++) {
+				
+				IncomeUser incomeUser = found.getIncomeUser().get(j);
+				if(incomeUser.getDate().getYear()==Integer.parseInt(year)) {
+					
+					if (incomeUser.getMonth().equalsIgnoreCase("Enero")) {
+						amountJanuary += incomeUser.getAmount();
+					}
+					if (incomeUser.getMonth().equalsIgnoreCase("Febrero")) {
+						amountFebruary += incomeUser.getAmount();
+					}
+					if (incomeUser.getMonth().equalsIgnoreCase("Marzo")) {
+						amountMarch += incomeUser.getAmount();
+					}
+					if (incomeUser.getMonth().equalsIgnoreCase("Abril")) {
+						amountApril += incomeUser.getAmount();
+					}
+					if (incomeUser.getMonth().equalsIgnoreCase("Mayo")) {
+						amountMay += incomeUser.getAmount();
+					}
+					if (incomeUser.getMonth().equalsIgnoreCase("Junio")) {
+						amountJune += incomeUser.getAmount();
+					}
+					if (incomeUser.getMonth().equalsIgnoreCase("Julio")) {
+						amountJuly += incomeUser.getAmount();
+					}
+					if (incomeUser.getMonth().equalsIgnoreCase("Agosto")) {
+						amountAugust += incomeUser.getAmount();
+					}
+					if (incomeUser.getMonth().equalsIgnoreCase("Septiembre")) {
+						amountSeptember += incomeUser.getAmount();
+					}
+					if (incomeUser.getMonth().equalsIgnoreCase("Octubre")) {
+						amountOctuber += incomeUser.getAmount();
+					}
+					if (incomeUser.getMonth().equalsIgnoreCase("Noviembre")) {
+						amountNovember += incomeUser.getAmount();
+					}
+					if (incomeUser.getMonth().equalsIgnoreCase("Diciembre")) {
+						amountDecember += incomeUser.getAmount();
+					}
+
+				}
+				
+			}
+			amountForMonth.add(amountJanuary);
+			amountForMonth.add(amountFebruary);
+			amountForMonth.add(amountMarch);
+			amountForMonth.add(amountApril);
+			amountForMonth.add(amountMay);
+			amountForMonth.add(amountJune);
+			amountForMonth.add(amountJuly);
+			amountForMonth.add(amountAugust);
+			amountForMonth.add(amountSeptember);
+			amountForMonth.add(amountOctuber);
+			amountForMonth.add(amountNovember);
+			amountForMonth.add(amountDecember);
+
+			income.setAmount(amountForMonth);
+
+			allIncomesForReport.add(income);
 		}
 
-		return allIncomesByOrder;
-	}*/
+		return allIncomesForReport;
+	}
 
 }

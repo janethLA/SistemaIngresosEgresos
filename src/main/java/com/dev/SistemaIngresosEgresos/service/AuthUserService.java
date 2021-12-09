@@ -50,4 +50,10 @@ public class AuthUserService implements UserDetailsService {
 		return userRepository.findByUserName(name).getExpiryDate();
 	}
 	
+	/*public String messageExpiry(String name) {
+		LocalDate expiryDate=getExpiryDate(name);
+        LocalDate nowDate=LocalDate.now();
+        
+	}*/
+	
 }

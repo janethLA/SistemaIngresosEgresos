@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dev.SistemaIngresosEgresos.input.ExpenseInput;
 import com.dev.SistemaIngresosEgresos.input.ExpenseUserInput;
 import com.dev.SistemaIngresosEgresos.output.ExpenseOutput;
+import com.dev.SistemaIngresosEgresos.output.ReportOutput;
 import com.dev.SistemaIngresosEgresos.service.ExpenseService;
 
 @RestController
@@ -55,5 +56,12 @@ public class ExpenseController {
 	@PutMapping("/updateExpense/{id}")
 	public ResponseEntity<?> updateExpense(@PathVariable long id,@RequestBody ExpenseInput expense){
 		return ResponseEntity.ok(expenseService.updateExpense(id, expense));
+	}
+	
+	@PreAuthorize("hasRole('ROLE_USER_FINAL')")	
+	@GetMapping("/expensesReport/{id}/{year}")
+	public Iterable<ReportOutput> expensesReport(@PathVariable Long id, @PathVariable String year){
+		
+		return expenseService.expensesReport(id, year);
 	}
 }

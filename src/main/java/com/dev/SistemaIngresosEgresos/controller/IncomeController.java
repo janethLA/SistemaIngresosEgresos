@@ -60,10 +60,10 @@ public class IncomeController {
 		return ResponseEntity.ok(incomeService.updateIncome(id, income));
 	}
 	
-	/*@PreAuthorize("hasRole('ROLE_USER_FINAL')")	
+	@PreAuthorize("hasRole('ROLE_USER_FINAL')")	
 	@GetMapping("/incomesReport/{id}/{year}")
 	public Iterable<ReportOutput> incomesReport(@PathVariable Long id, @PathVariable String year){
 		
 		return incomeService.incomesReport(id, year);
-	}*/
+	}
 }

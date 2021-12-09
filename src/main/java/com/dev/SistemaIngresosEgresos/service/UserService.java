@@ -9,9 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.dev.SistemaIngresosEgresos.entity.Expense;
+import com.dev.SistemaIngresosEgresos.entity.ExpenseUser;
+import com.dev.SistemaIngresosEgresos.entity.Income;
+import com.dev.SistemaIngresosEgresos.entity.IncomeUser;
 import com.dev.SistemaIngresosEgresos.entity.Role;
 import com.dev.SistemaIngresosEgresos.entity.UserSis;
+import com.dev.SistemaIngresosEgresos.input.DataUserOutput;
 import com.dev.SistemaIngresosEgresos.input.UserInput;
+import com.dev.SistemaIngresosEgresos.output.DataTotalOutput;
 import com.dev.SistemaIngresosEgresos.output.UserOutput;
 import com.dev.SistemaIngresosEgresos.repository.UserRepository;
 
@@ -127,5 +133,87 @@ public class UserService {
 		userRepository.save(updateUser);
 		return user;
     }
-   
+    public List<DataTotalOutput> getIncomeAndExpenseTotal(long id){
+    	UserSis user=userRepository.findById(id).get();
+    	List<DataTotalOutput> list=new ArrayList<DataTotalOutput>();
+    	
+    	DataTotalOutput data=new DataTotalOutput();
+		data.setName("TOTAL INGRESOS");
+		data.setTotal(getTotalIncomeUser(user));
+		DataTotalOutput data1=new DataTotalOutput();
+		data1.setName("TOTAL EGRESOS");
+		data1.setTotal(getTotalExpenseUser(user));
+		DataTotalOutput data2=new DataTotalOutput();
+		data2.setName("INGRESO");
+		data2.setTotal(getTotalIncomeAccount(user));
+		DataTotalOutput data3=new DataTotalOutput();
+		data3.setName("EGRESO");
+		data3.setTotal(getTotalExpenseAccount(user));
+		
+		list.add(data);
+		list.add(data1);
+		list.add(data2);
+		list.add(data3);
+		
+		return list;
+    	
+    }
+    private String getTotalIncomeUser(UserSis user) {
+    	List<IncomeUser> incomes=user.getIncomeUser();
+    	double total=0.0;
+    	for(IncomeUser incomeUser:incomes) {
+    		total+=incomeUser.getAmount();
+    	}
+    	total=Math.round(total*100.0)/100.0;
+    	return ""+total +" Bs";
+    }
+    
+    private String getTotalExpenseUser(UserSis user) {
+    	List<ExpenseUser> expenses=user.getExpenseUser();
+    	double total=0.0;
+    	for(ExpenseUser expenseUser:expenses) {
+    		total+=expenseUser.getAmount();
+    	}
+    	total=Math.round(total*100.0)/100.0;
+    	return ""+total +" Bs";
+    }
+    
+    private String getTotalIncomeAccount(UserSis user) {
+    	List<Income> incomes=user.getIncome();
+    	String resultado="";
+    	if(incomes.size() ==1) {
+    		resultado=""+incomes.size() +" Cuenta";
+    	}else {
+    		resultado=""+incomes.size() +" Cuentas";
+    	}
+    	return resultado;
+    }
+    
+    private String getTotalExpenseAccount(UserSis user) {
+    	List<Expense> expenses=user.getExpense();
+    	String resultado="";
+    	if(expenses.size() ==1) {
+    		resultado=""+expenses.size()  +" Cuenta";
+    	}else {
+    		resultado=""+expenses.size() +" Cuentas";
+    	}
+    	return resultado;
+    }
+    
+    public DataUserOutput updateDataFinalUser(long id,DataUserOutput user) {
+		UserSis updateUser=userRepository.findById(id).get();
+		
+		if(!user.getPassword().isEmpty()) {
+			updateUser.setPassword(encoder.encode(user.getPassword()));
+		}
+		if(!user.getUsername().isEmpty()) {
+			updateUser.setUserName(user.getUsername());
+		}
+		if(user.getTelephone()!=0) {
+			updateUser.setTelephone(user.getTelephone());
+		}
+		
+		userRepository.save(updateUser);
+		return user;
+    }
 }
