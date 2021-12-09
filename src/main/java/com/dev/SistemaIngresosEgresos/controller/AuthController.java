@@ -15,7 +15,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,8 +26,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dev.SistemaIngresosEgresos.Config.JWTUtil;
 import com.dev.SistemaIngresosEgresos.input.AuthenticationRequest;
+import com.dev.SistemaIngresosEgresos.input.UserPasswordInput;
 import com.dev.SistemaIngresosEgresos.output.AuthenticationResponse;
+import com.dev.SistemaIngresosEgresos.output.UserPasswordOutput;
 import com.dev.SistemaIngresosEgresos.service.AuthUserService;
+import com.dev.SistemaIngresosEgresos.service.UserService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
@@ -39,23 +45,36 @@ public class AuthController {
 
     @Autowired
     private JWTUtil jwtUtil;
+    
+    @Autowired
+    private UserService userService;
+
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> createToken(@RequestBody AuthenticationRequest request) {
     
     	  try {
+    
               authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
               UserDetails userDetails = authUserService.loadUserByUsername(request.getUsername());
               String jwt = jwtUtil.generateToken(userDetails);
               Collection<? extends GrantedAuthority> roles=userDetails.getAuthorities();
             
-              if(LocalDate.now().isBefore(authUserService.getExpiryDate(request.getUsername()))) {
+              if(authUserService.getRol(request.getUsername()).equalsIgnoreCase("ROLE_ADMIN")) {
             	  return new ResponseEntity<>(new AuthenticationResponse(jwt,roles, authUserService.getIdUser(request.getUsername()),
-             				authUserService.getNameUser(request.getUsername()), authUserService.getName(request.getUsername()))
-        	                    , HttpStatus.OK);
+           				authUserService.getNameUser(request.getUsername()), authUserService.getName(request.getUsername()))
+      	                    , HttpStatus.OK);
               }else {
-            	  return new ResponseEntity<>("Su cuenta ha expirado", HttpStatus.FORBIDDEN);
+            	  if(LocalDate.now().isBefore(authUserService.getExpiryDate(request.getUsername())) && authUserService.getActiveUser(request.getUsername())==true) {
+                	  
+                	  return new ResponseEntity<>(new AuthenticationResponse(jwt,roles, authUserService.getIdUser(request.getUsername()),
+                 				authUserService.getNameUser(request.getUsername()), authUserService.getName(request.getUsername()),authUserService.messageExpiry(request.getUsername()))
+            	                    , HttpStatus.OK);
+                  }else {
+                	  return new ResponseEntity<>("Su cuenta ha expirado", HttpStatus.FORBIDDEN);
+                  }
               }
+             
               
           } catch (BadCredentialsException e) {
         	  return new ResponseEntity<>("Username o password incorrecto",HttpStatus.FORBIDDEN);
@@ -63,4 +82,29 @@ public class AuthController {
     	
     }
     
+    @PermitAll
+	@GetMapping("/uniqueTelephoneAll/{telephone}")
+	public ResponseEntity<?> uniqueTelephone(@PathVariable Integer telephone){
+		
+		return ResponseEntity.ok(userService.noExistsTelephone(telephone));
+	}
+    
+    @PermitAll
+   	@GetMapping("/recoverByPhone/{telephone}")
+   	public ResponseEntity<?> recoverByPhone(@PathVariable Integer telephone){
+    	UserPasswordOutput u=userService.recoverByPhone(telephone);
+		if(u!=null) {
+			return ResponseEntity.ok(u);
+		}else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+ 
+   	}
+    
+    @PermitAll
+   	@PutMapping("/changePassword")
+   	public ResponseEntity<?> changePassword(@RequestBody UserPasswordInput user){
+   		
+   		return ResponseEntity.ok(userService.changePassword(user));
+   	}
 }

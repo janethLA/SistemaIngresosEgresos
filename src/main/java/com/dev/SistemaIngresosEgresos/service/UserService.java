@@ -3,6 +3,7 @@ package com.dev.SistemaIngresosEgresos.service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,11 @@ import com.dev.SistemaIngresosEgresos.entity.Role;
 import com.dev.SistemaIngresosEgresos.entity.UserSis;
 import com.dev.SistemaIngresosEgresos.input.DataUserOutput;
 import com.dev.SistemaIngresosEgresos.input.UserInput;
+import com.dev.SistemaIngresosEgresos.input.UserPasswordInput;
 import com.dev.SistemaIngresosEgresos.output.DataTotalOutput;
 import com.dev.SistemaIngresosEgresos.output.UserOutput;
+import com.dev.SistemaIngresosEgresos.output.UserPasswordOutput;
 import com.dev.SistemaIngresosEgresos.repository.UserRepository;
-
 
 @Service
 public class UserService {
@@ -94,9 +96,15 @@ public class UserService {
     public String deleteUser(long id) {
     	try {
     		UserSis user=userRepository.findById(id).get();
-    		user.setActive(false);
-    		userRepository.save(user);
-        	return "Se dio de baja correctamente el usuario";
+    		if(!user.getRole().getRoleName().equalsIgnoreCase("ROLE_ADMIN")) {
+    			user.setActive(false);
+        		userRepository.save(user);
+        		return "Se dio de baja correctamente el usuario";
+    		}else {
+    			return "No se puede dar de baja al superusuario";
+    		}
+    		
+        	
     	}catch (Exception e) {
 			return "No se dio de baja al usuario";
 		}
@@ -215,5 +223,44 @@ public class UserService {
 		
 		userRepository.save(updateUser);
 		return user;
+    }
+    
+    public boolean noExistsTelephone(int telephone) {
+    	
+    	boolean result=true;
+    	List <UserSis> allUser = userRepository.findAll();
+		for(UserSis a: allUser) {
+			if(a.getTelephone()!=0){
+			if(a.getTelephone()==telephone && a.isActive()) {
+				result=false;
+			}}
+		}
+		
+		return result;
+	}
+    
+    public UserPasswordOutput recoverByPhone(int telephone) {
+    	
+    	UserPasswordOutput user=new UserPasswordOutput();
+    	try {
+    		UserSis u=userRepository.findByTelephone(telephone);
+    		if(u.isActive() && LocalDate.now().isBefore(u.getExpiryDate())){
+    			user.setIdUser(u.getIdUser());
+    		}else {
+    			user=null;
+    		}
+    		
+		} catch (Exception e) {
+				user=null;
+		}
+    	return user ;
+    }
+    
+    public String changePassword (UserPasswordInput user) {
+    		UserSis u=userRepository.findById(user.getIdUser()).get();
+    		u.setPassword(encoder.encode(user.getPassword()));
+    		userRepository.save(u);
+    		
+    	return "Se cambio la contraseña";
     }
 }

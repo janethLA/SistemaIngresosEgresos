@@ -45,12 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     	
         http.cors().and().csrf().disable().authorizeRequests().antMatchers("/**/authenticate").permitAll()
         		.antMatchers("/**/getSetting").permitAll()
-        		//.antMatchers("/**/createEmpresa").permitAll()
-        		//.antMatchers("/**/registerBusiness").permitAll()
-        		//.antMatchers("/**/updateQuotation/*").permitAll()
-        		//.antMatchers("/**/RelatingPriceQuotationToDetails").permitAll()
-        		//.antMatchers("/**/uploadDetail").permitAll()
-        		//.antMatchers("/api/request").hasRole("ADMIN")
+        		.antMatchers("/**/uniqueTelephoneAll/*").permitAll() 
+        		.antMatchers("/**/recoverByPhone/*").permitAll()
+        		.antMatchers("/**/changePassword").permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

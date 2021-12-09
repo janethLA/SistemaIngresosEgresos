@@ -1,6 +1,7 @@
 package com.dev.SistemaIngresosEgresos.service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class AuthUserService implements UserDetailsService {
 	}
 	
 	public String getNameUser(String name) {
-		return userRepository.findByUserName(name).getName();
+		return userRepository.findByUserName(name).getUserName();
 	}
 	
 	public long getIdUser(String name) {
@@ -50,10 +51,25 @@ public class AuthUserService implements UserDetailsService {
 		return userRepository.findByUserName(name).getExpiryDate();
 	}
 	
-	/*public String messageExpiry(String name) {
+	public String messageExpiry(String name) {
+		
 		LocalDate expiryDate=getExpiryDate(name);
         LocalDate nowDate=LocalDate.now();
+        long diferenceDays=ChronoUnit.DAYS.between( nowDate,expiryDate);
+        String result="";
+        if( diferenceDays<31) {
+        	result= "Su cuenta expira en "+diferenceDays+" dias";
+        }
+    
+        return result;
         
-	}*/
+	}
+	public boolean getActiveUser(String name) {
+		return userRepository.findByUserName(name).isActive();
+	}
+	
+	public String getRol(String name) {
+		return userRepository.findByUserName(name).getRole().getRoleName();
+	}
 	
 }

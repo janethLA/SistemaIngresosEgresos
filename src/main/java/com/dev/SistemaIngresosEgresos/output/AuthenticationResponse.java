@@ -13,6 +13,7 @@ public class AuthenticationResponse {
 	private long id;
 	String userName;
 	String name;
+	private String expiryMessage;
 
 	public AuthenticationResponse() {
 		
@@ -22,6 +23,15 @@ public class AuthenticationResponse {
 		this.jwt = jwt;
 		this.roles = roles;
 		this.id = id;
+	}
+	public AuthenticationResponse(String jwt, Collection<? extends GrantedAuthority> roles, long id, String userName,String name,String expiryMessage) {
+		super();
+		this.jwt = jwt;
+		this.roles = roles;
+		this.id = id;
+		this.userName = userName;
+		this.name=name;
+		this.expiryMessage=expiryMessage;
 	}
 	public AuthenticationResponse(String jwt, Collection<? extends GrantedAuthority> roles, long id, String userName,String name) {
 		super();
@@ -76,6 +86,12 @@ public class AuthenticationResponse {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getExpiryMessage() {
+		return expiryMessage;
+	}
+	public void setExpiryMessage(String expiryMessage) {
+		this.expiryMessage = expiryMessage;
 	}
 
 }

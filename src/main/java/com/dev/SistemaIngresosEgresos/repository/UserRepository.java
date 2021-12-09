@@ -8,4 +8,5 @@ import com.dev.SistemaIngresosEgresos.entity.UserSis;
 @Repository
 public interface UserRepository extends JpaRepository<UserSis, Long> {
 	UserSis findByUserName(String name);
+	UserSis findByTelephone(int telephone);
 }

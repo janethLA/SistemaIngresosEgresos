@@ -38,7 +38,6 @@ public class CreateUserAdmin implements CommandLineRunner{
 			newUser.setUserName("Admin");
 			newUser.setPassword(encoder.encode("admin2021"));
 			newUser.setRegistrationDate(LocalDate.now());
-			newUser.setExpiryDate(LocalDate.of(2021, 12, 30));
 			newUser.setActive(true);
 			UserSis saveUser=userService.save(newUser);
 			
