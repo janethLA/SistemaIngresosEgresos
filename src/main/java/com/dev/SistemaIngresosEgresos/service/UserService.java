@@ -17,6 +17,7 @@ import com.dev.SistemaIngresosEgresos.entity.IncomeUser;
 import com.dev.SistemaIngresosEgresos.entity.Role;
 import com.dev.SistemaIngresosEgresos.entity.UserSis;
 import com.dev.SistemaIngresosEgresos.input.DataUserOutput;
+import com.dev.SistemaIngresosEgresos.input.UserDataInput;
 import com.dev.SistemaIngresosEgresos.input.UserInput;
 import com.dev.SistemaIngresosEgresos.input.UserPasswordInput;
 import com.dev.SistemaIngresosEgresos.output.DataTotalOutput;
@@ -262,5 +263,14 @@ public class UserService {
     		userRepository.save(u);
     		
     	return "Se cambio la contraseña";
+    }
+    
+    public  UserDataInput getDataUser(long id) {
+    	UserSis updateUser=userRepository.findById(id).get();
+    	UserDataInput newUser=new UserDataInput();
+    	newUser.setName(updateUser.getName());
+    	newUser.setUsername(updateUser.getUserName());
+    	newUser.setTelephone(updateUser.getTelephone());
+    	return newUser;
     }
 }

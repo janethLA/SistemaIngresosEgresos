@@ -84,11 +84,11 @@ public class UserController {
 		return ResponseEntity.ok(userService.updateDataFinalUser(id, user));
 	}
 	
-	/*@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@PutMapping("/getDataUser/{id}")
-	public ResponseEntity<?> getDataUser(@PathVariable long id,@RequestBody UserDataInput user){
-		return ResponseEntity.ok(userService.getDataUser(id, user));
-	}*/
+	@PreAuthorize("hasRole('ROLE_USER_FINAL')")
+	@GetMapping("/getDataUser/{id}")
+	public ResponseEntity<?> getDataUser(@PathVariable long id){
+		return ResponseEntity.ok(userService.getDataUser(id));
+	}
 	
 	
 }
