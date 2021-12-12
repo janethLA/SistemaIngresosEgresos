@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.dev.SistemaIngresosEgresos.entity.Expense;
 import com.dev.SistemaIngresosEgresos.entity.Income;
 import com.dev.SistemaIngresosEgresos.entity.IncomeUser;
 import com.dev.SistemaIngresosEgresos.entity.UserSis;
@@ -79,6 +80,7 @@ public class IncomeUserService {
 		IncomeUser income=incomeUserRepository.findById(id).get();
 		
 		if(incomeUser.getDate()!=null) {
+			//System.out.println("incomeUser.getDate()  "+incomeUser.getDate());
 			income.setDate(incomeUser.getDate());
 		}
 		if(incomeUser.getAmount()!=0) {
@@ -93,7 +95,10 @@ public class IncomeUserService {
 		if(!incomeUser.getComment().isEmpty()) {
 			income.setComment(incomeUser.getComment());
 		}
-		
+		if(incomeUser.getIdIncome()!=0) {
+			Income e=incomeService.findById(incomeUser.getIdIncome());
+			income.setIncome(e);
+		}
 		incomeUserRepository.save(income);
 		return incomeUser;
 	}

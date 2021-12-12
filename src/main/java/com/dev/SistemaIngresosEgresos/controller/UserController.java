@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dev.SistemaIngresosEgresos.input.DataUserOutput;
+import com.dev.SistemaIngresosEgresos.input.UserDataInput;
 import com.dev.SistemaIngresosEgresos.input.UserInput;
 import com.dev.SistemaIngresosEgresos.output.UserOutput;
 import com.dev.SistemaIngresosEgresos.service.UserService;
@@ -82,6 +83,12 @@ public class UserController {
 	public ResponseEntity<?> updateDataFinalUser(@PathVariable long id,@RequestBody DataUserOutput user){
 		return ResponseEntity.ok(userService.updateDataFinalUser(id, user));
 	}
+	
+	/*@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PutMapping("/getDataUser/{id}")
+	public ResponseEntity<?> getDataUser(@PathVariable long id,@RequestBody UserDataInput user){
+		return ResponseEntity.ok(userService.getDataUser(id, user));
+	}*/
 	
 	
 }

@@ -82,6 +82,7 @@ public class ExpenseUserService {
 		ExpenseUser expense=expenseUserRepository.findById(id).get();
 		
 		if(expenseUser.getDate()!=null) {
+			//System.out.println("expenseUser.getDate() "+expenseUser.getDate());
 			expense.setDate(expenseUser.getDate());
 		}
 		if(expenseUser.getAmount()!=0) {
@@ -95,6 +96,10 @@ public class ExpenseUserService {
 		}
 		if(!expenseUser.getComment().isEmpty()) {
 			expense.setComment(expenseUser.getComment());
+		}
+		if(expenseUser.getIdExpense()!=0) {
+			Expense e=expenseService.findById(expenseUser.getIdExpense());
+			expense.setExpense(e);
 		}
 		
 		expenseUserRepository.save(expense);
