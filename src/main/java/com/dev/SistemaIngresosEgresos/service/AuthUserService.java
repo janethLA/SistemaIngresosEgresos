@@ -58,7 +58,10 @@ public class AuthUserService implements UserDetailsService {
         long diferenceDays=ChronoUnit.DAYS.between( nowDate,expiryDate);
         String result="";
         if( diferenceDays<31) {
-        	result= "Su cuenta expira en "+diferenceDays+" dias";
+        	result= "Su cuenta expira en "+diferenceDays+" días";
+        }
+        if( diferenceDays==1) {
+        	result= "Su cuenta expira en "+diferenceDays+" día";
         }
     
         return result;

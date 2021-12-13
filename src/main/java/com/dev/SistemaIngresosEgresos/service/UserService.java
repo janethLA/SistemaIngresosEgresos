@@ -186,14 +186,19 @@ public class UserService {
     	total=Math.round(total*100.0)/100.0;
     	return ""+total +" Bs";
     }
-    
     private String getTotalIncomeAccount(UserSis user) {
     	List<Income> incomes=user.getIncome();
     	String resultado="";
-    	if(incomes.size() ==1) {
-    		resultado=""+incomes.size() +" Cuenta";
+    	List<Income> newIncomes=new ArrayList<Income>();
+    	for(Income i:incomes) {
+    		if(i.isActive()) {
+    			newIncomes.add(i);
+    		}
+    	}
+    	if(newIncomes.size() ==1) {
+    		resultado=""+newIncomes.size() +" Cuenta";
     	}else {
-    		resultado=""+incomes.size() +" Cuentas";
+    		resultado=""+newIncomes.size() +" Cuentas";
     	}
     	return resultado;
     }
@@ -201,10 +206,16 @@ public class UserService {
     private String getTotalExpenseAccount(UserSis user) {
     	List<Expense> expenses=user.getExpense();
     	String resultado="";
-    	if(expenses.size() ==1) {
-    		resultado=""+expenses.size()  +" Cuenta";
+    	List<Expense> newExpenses=new ArrayList<Expense>();
+    	for(Expense e:expenses) {
+    		if(e.isActive()) {
+    			newExpenses.add(e);
+    		}
+    	}
+    	if(newExpenses.size() ==1) {
+    		resultado=""+newExpenses.size()  +" Cuenta";
     	}else {
-    		resultado=""+expenses.size() +" Cuentas";
+    		resultado=""+newExpenses.size() +" Cuentas";
     	}
     	return resultado;
     }
